@@ -1,0 +1,257 @@
+{
+  "info": {
+    "name": "CF Feedback Aggregator",
+    "description": "Cloudflare Feedback Aggregation Tool — aggregates and analyzes product feedback from GitHub, Discourse, Reddit, and AI-generated mock sources.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://cf-feedback-aggregator.banand.workers.dev",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Stats",
+      "item": [
+        {
+          "name": "Get Aggregated Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stats"]
+            },
+            "description": "Returns aggregated counts of feedback items grouped by source, sentiment, category, and product."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Feedback",
+      "item": [
+        {
+          "name": "List All Feedback",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feedback",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feedback"]
+            },
+            "description": "List feedback items with default settings (limit 50, no filters)."
+          }
+        },
+        {
+          "name": "List Feedback — Filter by Source",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feedback?source=github&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feedback"],
+              "query": [
+                { "key": "source", "value": "github", "description": "One of: github, discourse, reddit, twitter_mock, support_mock" },
+                { "key": "limit", "value": "10", "description": "Max items to return (1-200, default 50)" }
+              ]
+            },
+            "description": "Filter feedback by source. Valid sources: github, discourse, reddit, twitter_mock, support_mock."
+          }
+        },
+        {
+          "name": "List Feedback — Filter by Sentiment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feedback?sentiment=negative&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feedback"],
+              "query": [
+                { "key": "sentiment", "value": "negative", "description": "One of: positive, negative, neutral, mixed" },
+                { "key": "limit", "value": "20" }
+              ]
+            },
+            "description": "Filter feedback by AI-detected sentiment."
+          }
+        },
+        {
+          "name": "List Feedback — Filter by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feedback?category=bug&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feedback"],
+              "query": [
+                { "key": "category", "value": "bug", "description": "One of: bug, feature-request, question, praise, complaint" },
+                { "key": "limit", "value": "20" }
+              ]
+            },
+            "description": "Filter feedback by AI-detected category."
+          }
+        },
+        {
+          "name": "List Feedback — Filter by Product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feedback?product=Workers&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feedback"],
+              "query": [
+                { "key": "product", "value": "Workers", "description": "Cloudflare product name (e.g. Workers, Pages, D1, R2, KV, DNS, CDN, WAF, Zero Trust)" },
+                { "key": "limit", "value": "20" }
+              ]
+            },
+            "description": "Filter feedback by AI-detected Cloudflare product."
+          }
+        },
+        {
+          "name": "List Feedback — Multiple Filters + Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feedback?source=github&sentiment=negative&category=bug&limit=10&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feedback"],
+              "query": [
+                { "key": "source", "value": "github" },
+                { "key": "sentiment", "value": "negative" },
+                { "key": "category", "value": "bug" },
+                { "key": "limit", "value": "10" },
+                { "key": "offset", "value": "0", "description": "Pagination offset" }
+              ]
+            },
+            "description": "Combine multiple filters with pagination."
+          }
+        },
+        {
+          "name": "Get Single Feedback Item",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feedback/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feedback", ":id"],
+              "variable": [
+                { "key": "id", "value": "", "description": "Feedback item ID (SHA-256 hash)" }
+              ]
+            },
+            "description": "Get a single feedback item by its ID. Copy an ID from the list endpoint."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ingest Triggers",
+      "item": [
+        {
+          "name": "Trigger GitHub Scraper",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ingest/trigger?source=github",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ingest", "trigger"],
+              "query": [
+                { "key": "source", "value": "github" }
+              ]
+            },
+            "description": "Manually trigger the GitHub issues scraper. Fetches from cloudflare/workers-sdk, cloudflare/cloudflare-docs, cloudflare/workerd."
+          }
+        },
+        {
+          "name": "Trigger Discourse Scraper",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ingest/trigger?source=discourse",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ingest", "trigger"],
+              "query": [
+                { "key": "source", "value": "discourse" }
+              ]
+            },
+            "description": "Manually trigger the Cloudflare Community Forum (Discourse) scraper."
+          }
+        },
+        {
+          "name": "Trigger Reddit Scraper",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ingest/trigger?source=reddit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ingest", "trigger"],
+              "query": [
+                { "key": "source", "value": "reddit" }
+              ]
+            },
+            "description": "Manually trigger the r/CloudFlare Reddit scraper. Requires REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET secrets."
+          }
+        },
+        {
+          "name": "Trigger Mock Tweets",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ingest/trigger?source=twitter_mock",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ingest", "trigger"],
+              "query": [
+                { "key": "source", "value": "twitter_mock" }
+              ]
+            },
+            "description": "Generate realistic mock tweets about Cloudflare using Workers AI."
+          }
+        },
+        {
+          "name": "Trigger Mock Support Tickets",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ingest/trigger?source=support_mock",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ingest", "trigger"],
+              "query": [
+                { "key": "source", "value": "support_mock" }
+              ]
+            },
+            "description": "Generate realistic mock support tickets using Workers AI."
+          }
+        },
+        {
+          "name": "Trigger All Sources",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ingest/trigger?source=all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ingest", "trigger"],
+              "query": [
+                { "key": "source", "value": "all" }
+              ]
+            },
+            "description": "Trigger all scrapers and mock generators at once."
+          }
+        }
+      ]
+    }
+  ]
+}
