@@ -1,0 +1,45 @@
+name = "cf-feedback-aggregator"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+# Cron Triggers — max 5 on free tier; sources grouped by similar frequency
+[triggers]
+crons = [
+  "*/15 * * * *",   # GitHub, Dev.to — every 15 min
+  "*/30 * * * *",   # Discourse — every 30 min
+  "0 * * * *",      # Reddit, Discord — every hour
+  "0 */2 * * *",    # HackerNews, StackOverflow — every 2 hours
+  "0 */4 * * *",    # Mock Tweets, Mock Tickets — every 4 hours
+]
+
+# D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "feedback-db"
+database_id = "86298e20-9860-47b1-861a-a4952b29b731"
+
+# KV Namespace
+[[kv_namespaces]]
+binding = "INGRESS_STATE"
+id = "d9a8b8ec267a443792436aca13d491fd"
+
+# Queue Producer
+[[queues.producers]]
+binding = "FEEDBACK_QUEUE"
+queue = "feedback-ingress"
+
+# Queue Consumer
+[[queues.consumers]]
+queue = "feedback-ingress"
+max_batch_size = 10
+max_batch_timeout = 30
+
+# Workers AI
+[ai]
+binding = "AI"
+
+# Observability
+[observability]
+[observability.logs]
+enabled = true
+invocation_logs = true

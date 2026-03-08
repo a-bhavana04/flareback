@@ -1,0 +1,20 @@
+{
+  "name": "cf-takehome",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "wrangler d1 execute feedback-db --remote --file=./migrations/0001_init.sql",
+    "db:migrate:local": "wrangler d1 execute feedback-db --local --file=./migrations/0001_init.sql",
+    "db:purge": "wrangler d1 execute feedback-db --remote --command \"DELETE FROM feedback_items\"",
+    "db:purge:local": "wrangler d1 execute feedback-db --local --command \"DELETE FROM feedback_items\""
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260306.1",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.71.0"
+  }
+}
