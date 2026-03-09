@@ -28,7 +28,7 @@ This prototype uses **5 Cloudflare Developer Platform products**:
 
 **Flow:** Scrapers → Queue → Consumer (dedup + AI enrichment + skip filter) → D1 → API → Frontend
 
-![Architecture Diagram](docs/flareback_arch.png)
+![Architecture Diagram](docs/flareback architecture.png)
 
 ### Cloudflare Workers Bindings
 
