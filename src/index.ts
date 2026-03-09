@@ -64,22 +64,22 @@ export default {
     console.log(`Cron triggered: ${cron}`);
 
     switch (cron) {
-      case '*/15 * * * *':
+      case '0 */6 * * *':
         ctx.waitUntil(scrapeGitHub(env));
         ctx.waitUntil(scrapeDevTo(env));
         break;
-      case '*/30 * * * *':
+      case '30 */6 * * *':
         ctx.waitUntil(scrapeDiscourse(env));
         break;
-      case '0 * * * *':
+      case '0 */12 * * *':
         ctx.waitUntil(scrapeReddit(env));
         ctx.waitUntil(scrapeDiscord(env));
         break;
-      case '0 */2 * * *':
+      case '30 */12 * * *':
         ctx.waitUntil(scrapeHackerNews(env));
         ctx.waitUntil(scrapeStackOverflow(env));
         break;
-      case '0 */4 * * *':
+      case '0 0 * * *':
         ctx.waitUntil(generateMockTweets(env));
         ctx.waitUntil(generateMockTickets(env));
         break;

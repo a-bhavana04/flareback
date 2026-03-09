@@ -2,14 +2,14 @@ name = "cf-feedback-aggregator"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
 
-# Cron Triggers — max 5 on free tier; sources grouped by similar frequency
+# Cron Triggers — reduced frequency to limit D1 usage (was 50%+)
 [triggers]
 crons = [
-  "*/15 * * * *",   # GitHub, Dev.to — every 15 min
-  "*/30 * * * *",   # Discourse — every 30 min
-  "0 * * * *",      # Reddit, Discord — every hour
-  "0 */2 * * *",    # HackerNews, StackOverflow — every 2 hours
-  "0 */4 * * *",    # Mock Tweets, Mock Tickets — every 4 hours
+  "0 */6 * * *",    # GitHub, Dev.to — every 6 hours
+  "30 */6 * * *",   # Discourse — every 6 hours (staggered)
+  "0 */12 * * *",   # Reddit, Discord — every 12 hours
+  "30 */12 * * *",  # HackerNews, StackOverflow — every 12 hours
+  "0 0 * * *",      # Mock Tweets, Mock Tickets — once daily (midnight UTC)
 ]
 
 # D1 Database
