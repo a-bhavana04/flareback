@@ -1,16 +1,16 @@
 # CF Feedback Aggregator
 
-**Cloudflare PM Intern Assignment — Product Feedback Aggregation Prototype**
+**Cloudflare PM Intern Assignment: Product Feedback Aggregation Prototype**
 
-A prototype that aggregates and analyzes product feedback from multiple sources (GitHub, Discourse, Reddit, Discord, HackerNews, StackOverflow, Dev.to, and mock sources) so PMs can derive themes, urgency, value, and sentiment.
+A prototype that aggregates and analyzes product feedback from multiple sources (GitHub, Discourse, Reddit, Discord, HackerNews, StackOverflow, Dev.to and mock sources) so PMs can derive themes, urgency, value, and sentiment.
 
 ---
 
 ## Project Links
 
 - **Demo (API):** https://cf-feedback-aggregator.banand.workers.dev
-- **Frontend:** _[Add your deployed frontend URL here, e.g. Vercel or Cloudflare Pages]_
-- **GitHub:** _[Add your repo URL here]_
+- **Frontend:** https://frontend.banand.workers.dev/
+- **GitHub:** https://github.com/a-bhavana04/flareback/
 
 ---
 
@@ -28,25 +28,25 @@ This prototype uses **5 Cloudflare Developer Platform products**:
 
 **Flow:** Scrapers → Queue → Consumer (dedup + AI enrichment + skip filter) → D1 → API → Frontend
 
+![Architecture Diagram](docs/flareback_arch.png)
+
 ### Cloudflare Workers Bindings
 
-<!-- Add screenshot: Workers & Pages > cf-feedback-aggregator > Overview or Bindings -->
-<!-- Save as docs/workers-bindings.png -->
 
-![Workers Bindings](docs/workers-bindings.png)
+![Workers Bindings](docs/workers_bindings.png)
 
 ### Frontend Dashboard
 
-<!-- Add screenshot of your deployed frontend (dashboard or feed) -->
-<!-- Save as docs/frontend-dashboard.png -->
 
-![Frontend Dashboard](docs/frontend-dashboard.png)
+![Frontend Dashboard](docs/dashboard_1.png)
+![Frontend Dashboard](docs/dashboard_2.png)
+![Frontend Dashboard](docs/feed.png)
 
 ---
 
 ## Features
 
-- **9 feedback sources:** GitHub, Discourse, Reddit, Discord, HackerNews, StackOverflow, Dev.to, mock tweets, mock support tickets
+- **Feedback sources:** GitHub, Discourse, Reddit, Discord, HackerNews, StackOverflow, Dev.to, mock tweets, mock support tickets
 - **AI enrichment:** Sentiment, category (bug/feature-request/question/praise/complaint), product, priority
 - **Noise filtering:** Skips short reactions ("oh totally", "lol") and non-substantive content
 - **HackerNews context:** Shows where Cloudflare was referenced (title, article, comment)
@@ -89,13 +89,3 @@ curl -X POST "https://cf-feedback-aggregator.banand.workers.dev/api/ingest/trigg
 | `/api/ingest/reset-cursors` | POST | Reset KV cursors (use after DB purge to re-fetch) |
 
 ---
-
-## Cloudflare Product Insights
-
-_For the PDF submission, include 3–5 friction points from your experience building this prototype. Format: Title, Problem, Suggestion._
-
----
-
-## Vibe-Coding Context
-
-_Built with Cursor. Used prompts for: [e.g. "add skip logic for noise content", "improve AI categorizer prompt", "add reset-cursors endpoint"]._
