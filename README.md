@@ -1,4 +1,4 @@
-# CF Feedback Aggregator
+# Flareback: CF Feedback Aggregator
 
 **Cloudflare PM Intern Assignment: Product Feedback Aggregation Prototype**
 
